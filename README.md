@@ -1,120 +1,107 @@
-#  E-Commerce Demand Forecasting and Inventory Intelligence
+# E-commerce Demand Forecasting and Inventory Intelligence System
 
-##  Project Overview
+## About the Project
 
-E-commerce businesses often face challenges in maintaining optimal inventory levels due to fluctuations in customer demand. Overstocking can increase storage costs, while understocking can lead to missed sales opportunities.
+E-commerce businesses often face challenges in managing their inventory. Sometimes products run out of stock due to unexpected demand, while at other times businesses maintain more stock than they actually need. Both situations can affect business operations and increase costs.
 
-This project aims to develop a Machine Learning-based demand forecasting system that predicts future product demand using historical sales data.
+This project, **E-commerce Demand Forecasting and Inventory Intelligence**, focuses on predicting future product demand using historical sales data and providing inventory recommendations based on those predictions.
 
-The system analyses historical sales patterns, identifies trends, and predicts product demand to support better inventory management and decision-making.
+The main idea is to use machine learning to understand past sales patterns, estimate future demand and help businesses make better inventory decisions.
 
-##  Project Objectives
+## Dataset
 
-- Analyse historical e-commerce sales data.
-- Identify sales trends and demand patterns.
-- Perform data cleaning and preprocessing.
-- Apply feature engineering techniques to improve prediction.
-- Build and evaluate machine learning models.
-- Predict future product demand.
-- Develop an application for interactive demand prediction.
+For this project, I used the Online Retail Dataset from the UCI Machine Learning Repository. It contains transactional data from a UK-based online retail business.
 
-##  Dataset
+The dataset includes information such as invoice numbers, product codes, product descriptions, quantities purchased, invoice dates, unit prices and customer details.
 
-**Dataset:** UCI Online Retail Dataset
+I used this data to understand product sales behaviour and identify patterns that could help predict future demand.
 
-**Source:** UCI Machine Learning Repository
+## Exploratory Data Analysis
 
-The dataset contains transactional records from a UK-based online retail store.
+I started the project with Exploratory Data Analysis (EDA) to understand the dataset and identify patterns in the sales data.
 
-Important features include:
+I examined the dataset structure, checked for missing values and duplicates, and analysed the distribution of important numerical columns such as Quantity and UnitPrice. I also used different visualizations to understand sales patterns and identify unusual values.
 
-- InvoiceDate
-- StockCode
-- Quantity
-- InvoiceNo
-- UnitPrice
-- CustomerID
-- Country
+This step helped me understand the quality of the data and decide which preprocessing techniques were required before building the machine learning models.
 
-##  Technologies Used
+## Data Preprocessing
 
-| Technology   | Purpose                   |
-| ------------ | ------------------------- |
-| Python       | Programming language      |
-| Pandas       | Data manipulation         |
-| NumPy        | Numerical operations      |
-| Matplotlib   | Data visualization        |
-| Seaborn      | Exploratory Data Analysis |
-| Scikit-learn | Machine Learning          |
-| Joblib       | Model serialization       |
-| VS Code      | Development environment   |
+After completing EDA, I moved on to data preprocessing to prepare the dataset for modelling.
 
-##  Project Workflow
+This involved handling missing values, removing duplicate records, filtering cancelled transactions and dealing with invalid or negative quantities. I also converted the InvoiceDate column into a proper datetime format.
 
-1. **Data Collection:** Obtained the dataset from the UCI Machine Learning Repository.
-2. **Data Cleaning:** Handled missing values, duplicates, and inconsistencies.
-3. **Exploratory Data Analysis (EDA):** Analysed sales distributions, trends, and outliers.
-4. **Feature Engineering:** Created time-based features, lag features, and rolling averages.
-5. **Data Splitting:** Used a time-based train-test split to maintain the chronological order of sales data.
-6. **Model Building:** Trained different machine learning algorithms.
-7. **Model Evaluation:** Evaluated model performance using MAE, MSE, RMSE, and R².
-8. **Deployment:** Prepared the trained model for integration into an interactive application.
+These steps helped prepare the data for further analysis and model development.
 
-##  Feature Engineering
+## Feature Engineering
 
-The following features were created to capture historical demand patterns:
+Since demand forecasting depends heavily on historical sales behaviour, I created additional features to help the machine learning models understand sales patterns.
 
-- Stock Code
-- Year
-- Month
-- Day
-- Day of week
-- Lag_1
-- Lag_7
-- Rolling Mean
+I extracted date-related information such as year, month, day and day of the week. I also created lag features to capture previous sales, including demand from the previous day and previous seven, fourteen and twenty-eight days.
 
-Lag features help the model understand previous demand, while rolling averages capture historical demand trends.
+Along with these, I calculated rolling averages and rolling standard deviations to understand changes in demand over time.
 
-##  Machine Learning Models
+These features help the model identify patterns in historical sales and use them when predicting future product demand.
 
-The following algorithms were explored:
+## Model Building
 
-- Linear Regression
-- Decision Tree Regressor
-- Random Forest Regressor
+After preprocessing and feature engineering, I trained different machine learning regression models to predict product demand.
 
-The models were evaluated and compared to identify the most suitable approach for demand forecasting.
+The models used in this project include Linear Regression, Decision Tree Regressor and Random Forest Regressor.
 
-##  Model Evaluation
+I also performed hyperparameter tuning using GridSearchCV and RandomizedSearchCV to find suitable model parameters and improve performance.
 
-Model performance was evaluated using:
+A baseline model was also used for comparison to understand whether the trained models were actually improving the predictions.
 
-| Metric   | Purpose                                                         |
-| -------- | --------------------------------------------------------------- |
-| MAE      | Measures average absolute prediction error                      |
-| MSE      | Measures average squared prediction error                       |
-| RMSE     | Measures prediction error in the original unit                  |
-| R² Score | Measures how much variation in demand is explained by the model |
+## Model Evaluation
 
-##  Deployment
+To evaluate the performance of the models, I used different regression metrics, including MAE, MSE, RMSE and R² Score.
 
-The trained machine learning model is being integrated into an application to provide an interactive interface for demand prediction.
+These metrics helped me understand the difference between actual and predicted demand and compare the performance of the models.
 
-The application aims to allow users to select a product and obtain its predicted demand.
+I compared the evaluation results to identify the strengths and limitations of each model and understand how accurately it could predict product demand.
 
-##  Future Improvements
+## Application Development
 
-- Improve prediction accuracy through hyperparameter tuning.
-- Experiment with additional forecasting algorithms.
-- Incorporate more historical sales patterns.
-- Develop inventory optimization recommendations.
-- Enhance the application interface.
-- Deploy the application online.
+After completing the modelling process, I developed an interactive application using Streamlit.
 
-##  Author
+The application allows users to select a product using its StockCode, enter the unit price, choose a forecast date and provide information about the current inventory.
 
-**Arya P. S.**
+Users can also enter historical sales information and specify a safety buffer before generating a demand prediction.
 
-Economics Graduate | Pursuing PG Diploma in Applied Statistics| Aspiring Data Scientist
+Once the prediction is generated, the application displays the predicted demand, current stock, stock balance and estimated demand for 30 days.
 
-Interested in Data Science, Machine Learning, and Business Analytics.
+It also provides a visual comparison of predicted demand and available inventory, making the results easier to understand.
+
+## Inventory Intelligence
+
+An important part of this project is connecting demand prediction with inventory management.
+
+Instead of only predicting how many units might be sold, the application also helps estimate how much stock a business should maintain.
+
+The target stock is calculated using predicted demand and the safety buffer.
+
+**Target Stock = Predicted Demand + Safety Buffer**
+
+The application compares the target stock with the current inventory and identifies whether additional stock is required or whether the available inventory is sufficient.
+
+This helps businesses make more informed inventory decisions, avoid potential stock shortages and reduce unnecessary excess stock.
+
+## Technologies Used
+
+Python, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Streamlit, Jupyter Notebook, Joblib, Git and GitHub.
+
+## Future Improvements
+
+There is still scope to improve this project by exploring more advanced forecasting techniques, incorporating seasonal patterns and improving prediction accuracy.
+
+The application can also be extended with real-time inventory updates and additional features to make it more useful for practical business applications.
+
+## Conclusion
+
+Through this project, I explored how machine learning can be used to solve a practical business problem.
+
+I worked through the complete process, starting from understanding and analysing the dataset to preprocessing, feature engineering, model building, evaluation and application development.
+
+The project helped me understand how historical sales data can be converted into meaningful predictions and how those predictions can be used to support inventory management decisions.
+
+The overall goal is to make demand forecasting more useful by connecting machine learning predictions with real-world business needs.
